@@ -12,6 +12,8 @@ import AddCar from "./pages/admin/AddCar";
 import AdminLayout from "./Layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import CssBaseline from '@mui/material/CssBaseline';
+import Temp from "./components/Temp";
+import './App.css'
 
 const defaultTheme = createTheme()
 
@@ -25,6 +27,7 @@ export default function App() {
             <Route index element={<p>Home</p>} />
             <Route path="login" element={<SignIn/>} />
             <Route path="register" element={<Register/>} />
+            <Route path="temp" element={<Temp/>} />
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="admin/*" element={<AdminLayout />}>

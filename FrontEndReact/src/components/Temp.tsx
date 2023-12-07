@@ -1,22 +1,36 @@
-import { Box,Text } from "@chakra-ui/react"
-
-
+import { useEffect, useState } from "react"
+import { useForm, SubmitHandler } from "react-hook-form"
+import { DevTool } from '@hookform/devtools'
+type Inputs = {
+  username: string
+  email: string
+}
 
 export default function Temp() {
-  return (
-    <>
-        <Box m={2} bg='tomato' color='white'>Tomato</Box>
-        <Text
-            bgGradient="linear(to-l, #7928CA, #FF0080)"
-            bgClip="text"
-            fontSize="6xl"
-            fontWeight="extrabold"
-            >
-            Welcome to Chakra UI
-        </Text>
-        <Box w="100%" h="200px" bgGradient="radial(gray.300, yellow.400, pink.200)" />
-        <Box w="100%" h="200px" bgGradient="linear(to-t, green.200, pink.500)" />
+  // const [username,setUsername] = useState('')
+  const form = useForm<Inputs>()
+  // console.log(form)
+  const { register,control } = form
 
-    </>
+
+  
+  return (
+
+  <>
+    <form>
+
+      <input type='text' {...register('username', {
+      min: 3,
+      onChange: (e) => console.log(e.target.value)
+  })}/>
+
+      <input type='email' {...register("email")} />
+
+
+      <input type="submit" />
+
+    </form>
+    <DevTool control={control}/>
+  </>
   )
 }

@@ -31,13 +31,15 @@ class CarController extends Controller
     public function store(Request $request)
     {
        
-        if ($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) 
+        {
+
             $image = $request->file('photo');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName); 
 
             $carRequest = $request->all();
-            $carRequest['photo'] = 'images/' . $imageName;
+            $carRequest['photo'] = $imageName;
             $carRequest['available'] = $carRequest['available'] == 'Yes' ? 1 : 0;
 
             Car::create($carRequest);
@@ -68,8 +70,37 @@ class CarController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
+    {   
+        $car = Car::find($id);
+
+        $car->brand = $request->brand;
+        $car->fuel_type = $request->fuel_type;
+        $car->gearbox = $request->gearbox;
+        $car->model = $request->model;
+        $car->price = $request->price;
+        $car->available = $request->available == 'Yes' ? 1 : 0;
+
+        if ($request->hasFile('photo')) {
+
+            if(file_exists(public_path("images/$car->photo")))
+            {
+                unlink(public_path("images/$car->photo"));
+            }
+
+            $image = $request->file('photo');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName); 
+        
+            $car->photo = $imageName;
+        }
+        
+        
+        if($car->save())
+        {
+            return response()->json(['code' => 1 , 'data' => 'Updated successfully'], 200);
+        }
+        return response()->json(['code' => 0], 400);
+        
     }
 
     /**
@@ -78,7 +109,13 @@ class CarController extends Controller
     public function destroy(string $id)
     {
         $car = Car::find($id);
-        $car->delete();
-        return response()->json(['code' => 1 , 'data' => 'Deleted successfully'], 200);
+        
+        if(file_exists(public_path("images/$car->photo")))
+        {
+            unlink(public_path("images/$car->photo"));
+            $car->delete();
+            return response()->json(['code' => 1 , 'data' => 'Deleted successfully'], 200);
+        }
+        return response()->json(['code' => 0], 400);
     }
 }

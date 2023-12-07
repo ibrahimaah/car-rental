@@ -84,7 +84,9 @@ export default function Cars() {
     if (isYesButton) {
       axios.delete(`${MAIN_ENDPOINT}cars/${carId}`).then(response => {
         if (response.data.code == 1) {
-          
+          alert(response.data.data)
+        }else{
+          alert('error')
         }
       })
     }
