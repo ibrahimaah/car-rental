@@ -17,7 +17,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PreviewIcon from '@mui/icons-material/Preview';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 import EditCar from './EditCar';
-
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -60,7 +60,7 @@ export default function Cars() {
   const [drawState, setDrawState] = useState(false);
   const [editDrawState, setEditDrawState] = useState(false);
   const [isLoading , setIsLoading] = useState(true);
-  const [isProgress,setIsProgress] = useState(false)
+  const [isProgress,setIsProgress] = useState(false) // just for refresh
   const [carId,setCarId] = useState<number>()
 
   const selectedCar:CarType = cars.filter(car => car.id === carId)[0]
@@ -84,7 +84,9 @@ export default function Cars() {
     if (isYesButton) {
       axios.delete(`${MAIN_ENDPOINT}cars/${carId}`).then(response => {
         if (response.data.code == 1) {
-          alert(response.data.data)
+          // alert(response.data.data)
+          setIsProgress(!isProgress)
+          toast.success("Deleted Successfully :)");
         }else{
           alert('error')
         }
@@ -147,7 +149,7 @@ export default function Cars() {
                     <StyledTableCell align="center">{car.gearbox}</StyledTableCell>
                     <StyledTableCell align="center">{car.model}</StyledTableCell>
                     <StyledTableCell align="center">{car.price}</StyledTableCell>
-                    <StyledTableCell align="center">{car.available}</StyledTableCell>
+                    <StyledTableCell align="center">{car.available == 1 ? 'Yes' : 'No'}</StyledTableCell>
                     <StyledTableCell align="center">
                       
                       <IconButton color='primary' size="small" href={`${HTTP_SERVER_IMAGES}${car.photo}`} target='_blank'>
@@ -195,6 +197,7 @@ export default function Cars() {
         </>
       ) }
       </Container>
+      <ToastContainer position="top-center" autoClose={3000}/>
     </>
   );
 }

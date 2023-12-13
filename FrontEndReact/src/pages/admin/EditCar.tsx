@@ -18,11 +18,12 @@ import axios from 'axios';
 import { CarType } from './Cars';
 import { ERROR_REQUIRED_MSG, FormValuesTypes } from './AddCar';
 import { useForm,Controller } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 type EditCarPropsType = {
     drawState : boolean
     handleDrawState : (drawState:boolean,id?:number) => void
-    setIsProgress : (isProgress:boolean) => void
+    setIsProgress : React.Dispatch<React.SetStateAction<boolean>>
     selectedCar : CarType
 } | {}
 
@@ -44,29 +45,13 @@ export default function EditCar(props:EditCarPropsType) {
       }
     });
     
-    const { register,control, handleSubmit, formState:{errors}} = addCarForm;
+  const { register,control, handleSubmit, formState:{errors}} = addCarForm;
 
 
-
-  // const navigate = useNavigate()
-  // const [photo, setPhoto] = useState<File | null>(null);
- 
-  // const [brand,setBrand] = useState(selectedCar?.brand);
-  // const [fuelType,setFuelType] = useState(selectedCar?.fuel_type);
-  // const [gearBox,setGearBox] = useState(selectedCar?.gearbox);
-  // const [model,setModel] = useState(selectedCar?.model);
-  // const [price,setPrice] = useState(selectedCar?.price+'');
-  // const [isAvailable,setIsAvailable] = useState(selectedCar?.available == 1 ? 'Yes' : 'No');
-
-
-  // const handleChangePhoto = (newPhoto: File | null) => {
-  //   setPhoto(newPhoto)  
-  // };
   const onSubmit = (data:FormValuesTypes) => {
-    setIsProgress(true)
     
     const formData = new FormData();
-    formData.append('photo', data.photo);
+    formData.append('photo', data.photo as Blob);
     formData.append('brand', data.brand);
     formData.append('fuel_type', data.fuelType);
     formData.append('gearbox', data.gearBox);
@@ -75,11 +60,12 @@ export default function EditCar(props:EditCarPropsType) {
     formData.append('available', data.isAvailable);
 
     axios.post(`${MAIN_ENDPOINT}cars/update/${selectedCar.id}`,formData)
-    .then(res => {
-      console.log(res.data.data)
+    .then(() => {
+      toast.success("Saved Successfully :)");
+      setIsProgress(prevProgress => !prevProgress);
     })
-    .catch(err => {console.log(err)})
-    .finally(()=>{setIsProgress(false)})
+    .catch(err => {toast.error(err.message)})
+    
   }
 
  
@@ -222,7 +208,7 @@ export default function EditCar(props:EditCarPropsType) {
                         <MuiFileInput
                           placeholder="Upload a car photo"
                           {...field }
-                          inputProps={{ accept: '.png, .jpeg, .jpg, .jfif' }}
+                          inputProps={{ accept: '.png, .jpeg, .jpg, .jfif, .webp' }}
                           InputProps={{
                             startAdornment: <AttachFileIcon />
                           }}
@@ -236,13 +222,20 @@ export default function EditCar(props:EditCarPropsType) {
 
                   <ListItem disablePadding>
                       <Button type="submit" variant='contained'>Save</Button>
+                      <Button 
+                          variant='contained'
+                          color='error'
+                          sx={{marginLeft:'5px'}}
+                          onClick={()=>handleDrawState(false)}
+                          >Close</Button>
                   </ListItem>
                 </form>
               </List>
             </Container>
 
-
+                                    
           </Drawer>
+          
         </React.Fragment>
       
     </div>

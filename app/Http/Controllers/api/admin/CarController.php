@@ -14,7 +14,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        return response()->json(['code'=> 1,'data'=> Car::all()],200);
+        return response()->json(['code'=> 1,'data'=> Car::orderBy('id', 'desc')->get()],200);
     }
 
     /**
@@ -117,5 +117,10 @@ class CarController extends Controller
             return response()->json(['code' => 1 , 'data' => 'Deleted successfully'], 200);
         }
         return response()->json(['code' => 0], 400);
+    }
+
+    public function getFeatured()
+    {
+        return response()->json(['code'=> 1,'data'=> Car::take(3)->get()],200);
     }
 }

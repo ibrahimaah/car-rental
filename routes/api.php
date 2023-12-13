@@ -38,6 +38,7 @@ Route::post('login', [RegisterController::class, 'login']);
 
 
 Route::get('cars',[CarController::class,'index']);
+Route::get('cars/featured',[CarController::class,'getFeatured']);
 Route::post('cars/update/{id}',[CarController::class,'update']);
 Route::post('cars/store',[CarController::class,'store']);
 Route::delete('cars/{id}',[CarController::class,'destroy']);

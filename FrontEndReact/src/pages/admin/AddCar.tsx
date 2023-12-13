@@ -18,11 +18,12 @@ import { MuiFileInput } from 'mui-file-input'
 import MAIN_ENDPOINT from '../../constants';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 type AddCarPropsType = {
     drawState : boolean
     handleDrawState : (drawState:boolean) => void
-    setIsProgress : (isProgress:boolean) => void
+    setIsProgress : React.Dispatch<React.SetStateAction<boolean>>
 } | {}
 
 export type FormValuesTypes = {
@@ -32,7 +33,7 @@ export type FormValuesTypes = {
   model : string 
   price : number 
   isAvailable: 'Yes' | 'No' | ''
-  photo : File | null
+  photo : File | null 
 }
 
 export const ERROR_REQUIRED_MSG = 'This field is required'
@@ -47,29 +48,25 @@ export default function AddCar(props:AddCarPropsType) {
   const { drawState, handleDrawState, setIsProgress } = props;
 
   const onSubmit = (data:FormValuesTypes) => {
-      setIsProgress(true)
-      if (data.photo) {
       
-          const formData = new FormData();
-          formData.append('photo', data.photo);
-          formData.append('brand', data.brand);
-          formData.append('fuel_type', data.fuelType);
-          formData.append('gearbox', data.gearBox);
-          formData.append('model', data.model);
-          formData.append('price', data.price.toString());
-          formData.append('available', data.isAvailable);
 
-          axios.post(`${MAIN_ENDPOINT}cars/store`,formData)
-          .then(res => {
-            console.log(res.data.data)
-          })
-          .catch(err => {console.log(err)})
-          .finally(()=>{setIsProgress(false)})
-        
-        
-      }else{
-        alert('add photo please')
-      }
+      const formData = new FormData();
+      formData.append('photo', data.photo as Blob);
+      formData.append('brand', data.brand);
+      formData.append('fuel_type', data.fuelType);
+      formData.append('gearbox', data.gearBox);
+      formData.append('model', data.model);
+      formData.append('price', data.price.toString());
+      formData.append('available', data.isAvailable);
+
+      axios.post(`${MAIN_ENDPOINT}cars/store`,formData)
+      .then(() => {
+        toast.success("Added Successfully :)");
+        setIsProgress((prevProgress) => !prevProgress);
+
+      })
+      .catch(err => {toast.error(err.message)})
+      
   };
   return (
     <div>
@@ -207,7 +204,7 @@ export default function AddCar(props:AddCarPropsType) {
                         <MuiFileInput
                           placeholder="Upload a car photo"
                           {...field }
-                          inputProps={{ accept: '.png, .jpeg, .jpg, .jfif' }}
+                          inputProps={{ accept: '.png, .jpeg, .jpg, .jfif, .webp' }}
                           InputProps={{
                             startAdornment: <AttachFileIcon />
                           }}
@@ -221,6 +218,12 @@ export default function AddCar(props:AddCarPropsType) {
 
                   <ListItem disablePadding>
                       <Button type="submit" variant='contained'>Add</Button>
+                      <Button 
+                          variant='contained'
+                          color='error'
+                          sx={{marginLeft:'5px'}}
+                          onClick={()=>handleDrawState(false)}
+                          >Close</Button>
                   </ListItem>
                 </form>
               </List>

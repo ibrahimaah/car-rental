@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-
+// import { useTheme } from '@mui/material/styles';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -35,8 +35,10 @@ function NavBar() {
     setAnchorElUser(null);
   };
 
+  // const theme = useTheme()
+  // alert(theme.palette.primary.contrastText)
   return (
-    <AppBar position="static">
+    <AppBar position="static" color='secondary' style={{ backgroundImage: 'none', boxShadow: 'none' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -118,7 +120,7 @@ function NavBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'inherit', display: 'block' }}
               >
                 {page}
               </Button>
