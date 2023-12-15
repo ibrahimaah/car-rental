@@ -5,6 +5,7 @@ import HomeCar from '../../assets/images/ford.webp'
 import FeaturedCars from "./Home/FeaturedCars";
 import WhyChooseUs from "./Home/WhyChooseUs";
 import OurClients from "./Home/OurClients";
+import Footer from "../../components/Footer";
 export default function Home() {
   const theme = useTheme();
   
@@ -67,7 +68,14 @@ export default function Home() {
         <FeaturedCars/>
         <WhyChooseUs/>
         <OurClients/>
+        
       </Container>
+
+      <Box sx={{backgroundColor:'#e1e8ef'}}> 
+        <Footer/>
+      </Box>
+     
+      
     </Box>
   )
 }

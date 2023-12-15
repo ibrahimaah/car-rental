@@ -16,7 +16,7 @@ export default function OurClients() {
          /> 
 
 
-         <Grid container my={3}>
+         <Grid container my={3} spacing={2}>
             <Grid item xs={6} md={4}>
                 <OurClientsItem  
                     title='Efficient Collaborating' 
@@ -28,14 +28,14 @@ export default function OurClients() {
                 <OurClientsItem 
                     title='Intuitive Design' 
                     desc='Exceptional user experience. Intuitively designed for effortless navigation. Highly recommended for a seamless and user-friendly interface.'
-                    client = {{name:'Ann Black',role:'CEO at ABC Corporation',imgSrc:avatar2}}
+                    client = {{name:'Jane Cooper',role:'Marketing Manager',imgSrc:avatar2}}
                 />
             </Grid>
             <Grid item xs={6} md={4}>
                 <OurClientsItem 
                     title='Mindblowing Service' 
                     desc='Mindblowing service that exceeds expectations. Unparalleled attention to detail. A service experience like no other.'
-                    client = {{name:'Ann Black',role:'CEO at ABC Corporation',imgSrc:avatar3}}
+                    client = {{name:'John Doe',role:'Marketing Manager',imgSrc:avatar3}}
                 />
             </Grid>
 

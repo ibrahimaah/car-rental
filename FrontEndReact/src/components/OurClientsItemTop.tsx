@@ -5,8 +5,7 @@ import { Typography } from '@mui/material';
 import { OurClientsItemPropsType } from './OurClientsItem';
 
 const DemoPaper = styled(Paper)(({ theme }) => ({
-    width: '100%',
-    // height: 120,
+    width: '100%', 
     padding: theme.spacing(2),
     ...theme.typography.body2,
     textAlign: 'center',
