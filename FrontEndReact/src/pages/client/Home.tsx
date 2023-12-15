@@ -2,7 +2,9 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import HomeCar from '../../assets/images/ford.webp'
-import SectionTwo from "./Home/SectionTwo";
+import FeaturedCars from "./Home/FeaturedCars";
+import WhyChooseUs from "./Home/WhyChooseUs";
+import OurClients from "./Home/OurClients";
 export default function Home() {
   const theme = useTheme();
   
@@ -62,7 +64,9 @@ export default function Home() {
                 
       
       <Container>
-        <SectionTwo/>
+        <FeaturedCars/>
+        <WhyChooseUs/>
+        <OurClients/>
       </Container>
     </Box>
   )

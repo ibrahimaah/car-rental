@@ -30,6 +30,8 @@ declare module '@mui/material/AppBar' {
   }
 }
 
+
+
 declare module '@mui/material/styles' {
   
   interface SimplePaletteColorOptions {
