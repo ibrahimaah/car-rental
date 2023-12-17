@@ -14,14 +14,7 @@ export default function SectionTwo() {
     const [skeltonFeatured,setSkeltonFeatured] = useState(true)
 
     useEffect(() => {
-
-        setSkeltonFeatured(prevSkeltonFeatured => {
-            if (!prevSkeltonFeatured) {
-                return true
-            }
-            return false
-        } )
-
+        
       axios.get(`${MAIN_ENDPOINT}cars/featured`)
       .then(response => {
          setFeaturedCars(response.data.data) 

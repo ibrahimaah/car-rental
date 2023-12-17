@@ -17,6 +17,8 @@ import './App.css'
 import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/client/Home";
 import { grey } from '@mui/material/colors';
+import AvailableCars from "./pages/client/AvailableCars";
+import { CarProvider } from "./contexts/CarContext";
 
 
 
@@ -69,24 +71,28 @@ const defaultTheme = createTheme({
 
 export default function App() {
   return (
+    
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home/>} />
-            <Route path="login" element={<SignIn/>} />
-            <Route path="register" element={<Register/>} />
-            <Route path="temp" element={<Temp/>} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
-          <Route path="admin/*" element={<AdminLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="cars" element={<Cars />} />
-              <Route path="cars/add" element={<AddCar />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <CarProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home/>} />
+              <Route path="cars" element={<AvailableCars/>} />
+              <Route path="login" element={<SignIn/>} />
+              <Route path="register" element={<Register/>} />
+              <Route path="temp" element={<Temp/>} />
+              <Route path="*" element={<NoPage />} />
+            </Route>
+            <Route path="admin/*" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="cars" element={<Cars />} />
+                <Route path="cars/add" element={<AddCar />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CarProvider>
     </ThemeProvider>
   )
 }

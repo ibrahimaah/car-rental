@@ -12,8 +12,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import NavBarLink from './NavBarLink';
+
 // import { useTheme } from '@mui/material/styles';
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [
+  {
+    link: '/',
+    name: 'Home'
+  },
+  {
+    link: '/cars',
+    name: 'Cars'
+  }
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
@@ -89,9 +100,12 @@ function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+            {
+              pages.map((page) => (
+                <MenuItem key={page.link} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <NavBarLink destination={page.link} pageName={page.name}/>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -118,11 +132,13 @@ function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.link}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'inherit', display: 'block' }}
               >
-                {page}
+                <Typography textAlign="center">
+                  <NavBarLink destination={page.link} pageName={page.name}/>
+                </Typography>
               </Button>
             ))}
           </Box>
